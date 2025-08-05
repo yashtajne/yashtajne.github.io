@@ -1,7 +1,9 @@
 
+<script>
+    let { onClick } = $props();
+</script>
 
-
-<button>
+<button onclick={onClick}>
     <slot></slot>
 </button>
 
@@ -12,9 +14,9 @@
         border-left: 2px solid var(--c1);
         border-right: 2px solid black;
         border-bottom: 2px solid black;
-        padding: 5px 8px;
         cursor: pointer;
         text-align: left;
+        padding: 0 0.34rem;
     }
 
     button:active {

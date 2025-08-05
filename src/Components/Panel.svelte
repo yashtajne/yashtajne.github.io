@@ -9,7 +9,12 @@
 
 
 <panel>
-    <h3><span style="margin-left: 5px;">{label}</span><Button>✖</Button></h3>
+    <h3>
+        <span style="margin-left: 5px;">{label}</span>
+        <div class="buttons" style="font-size: 2px;">
+            <Button>✖</Button>
+        </div>
+    </h3>
     <slot></slot>
 </panel>
 
@@ -25,7 +30,6 @@
         padding: 0.2rem;
         display: flex;
         flex-direction: column;
-        margin: 3.5rem 3rem;
         width: 100%;
         box-sizing: border-box;
     }
@@ -33,9 +37,20 @@
     h3 {
         margin: 0 0 0.4rem 0;
         background: linear-gradient(to right, var(--bg2), transparent);
-        padding: 0.4rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 0 0 0.4rem;
+        height: 1.5rem;
+        position: relative;
+    }
+
+    .buttons {
+        position: absolute;
+        display: flex;
+        padding: 0.5rem 0;
+        box-sizing: border-box;
+        right: 5px;
     }
 </style>
+

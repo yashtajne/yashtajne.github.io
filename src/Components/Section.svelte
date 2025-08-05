@@ -18,7 +18,7 @@
 
     span {
         position: absolute;
-        top: -15px;
+        top: -18px;
         left: 25px;
         font-weight: 700;
         background-color: var(--bg1);
