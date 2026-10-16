@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte'
   import { snapshot, API } from './lib/repos.js'
+  import { resume } from './lib/resume.js'
 
   let filter = $state('')
   let lang = $state('all')
@@ -51,61 +52,80 @@
 <div class="page">
   <div class="top-line">
     <span>yash tajne — /home/yash</span>
-    <span>oct 2026 · third rewrite of this page · <a href="https://github.com/yashtajne">github.com/yashtajne</a></span>
+    <span>oct 2026 · fourth rewrite · <a href="https://github.com/yashtajne">github.com/yashtajne</a></span>
   </div>
   <hr class="masthead-rule" />
 
-  <h1>I write C that avoids libc.</h1>
+  <div class="headline-row">
+    <h1>Systems developer<span class="red-dot">.</span></h1>
+    <span class="stamp" aria-label="systems, not web">ex-web</span>
+  </div>
   <p class="standfirst">
-    My name is Yash. Most of what I do is small, freestanding systems code —
-    compiled with <code>clang -nostdlib -ffreestanding</code>, no libc to hide behind.
-    Three things take up most of my time: <a href="https://github.com/yashtajne/Pure">Pure</a>,
+    I'm Yash. I work in <strong>C, C++, Rust, and Go</strong> — runtimes, shells,
+    emulators, the kind of code that ships without libc. I used to do web development
+    and left it. These days most of my time goes to
+    <a href="https://github.com/yashtajne/Pure">Pure</a>,
     <a href="https://github.com/yashtajne/PureShell">PureShell</a>, and
-    <a href="https://github.com/yashtajne/VIRE">VIRE</a>. The rest is below, in roughly
-    decreasing order of how much I still think about it.
+    <a href="https://github.com/yashtajne/VIRE">VIRE</a>.
   </p>
 
+  <dl class="glance">
+    <div><dt>languages</dt><dd>C · C++ · Rust · Go</dd></div>
+    <div><dt>currently</dt><dd>Pure + PureShell + VIRE</dd></div>
+    <div><dt>builds with</dt><dd><code>-nostdlib -ffreestanding</code></dd></div>
+    <div><dt>resume</dt><dd><a href="./resume.pdf">resume.pdf ↓</a></dd></div>
+  </dl>
+
   <ol class="contents">
-    <li><span class="n">01</span> <a href="#currently">what i'm working on</a></li>
-    <li><span class="n">02</span> <a href="#projects">everything else, with a filter</a></li>
-    <li><span class="n">03</span> <a href="#how">how i build</a></li>
-    <li><span class="n">04</span> <a href="#contact">contact</a></li>
+    <li><span class="n">01</span> <a href="#currently">the three main projects</a></li>
+    <li><span class="n">02</span> <a href="#machine">inside the machine room</a></li>
+    <li><span class="n">03</span> <a href="#projects">everything else, with a filter</a></li>
+    <li><span class="n">04</span> <a href="#resume">resume</a></li>
+    <li><span class="n">05</span> <a href="#contact">contact</a></li>
   </ol>
 
-  <h2 id="currently"><span class="sec-no">01</span> What I'm working on</h2>
-  <p class="section-note">Three projects. All C. All on purpose without the standard library.</p>
+  <h2 id="currently"><span class="sec-no">01</span> The three main projects</h2>
+  <p class="section-note">In dependency order: the runtime, the shell on top of it, the emulator beside it.</p>
 
   <div class="entry">
     <div class="entry-head">
       <h3><span class="idx">001</span> <a href="https://github.com/yashtajne/Pure">Pure</a></h3>
-      <span class="entry-meta">C · updated oct 11 · the base layer</span>
+      <span class="stamp small">base layer</span>
     </div>
+    <p class="entry-meta">C · updated oct 11 · <span class="chip c">C</span> cross-platform runtime</p>
     <p>
-      A cross-platform C runtime to replace the parts of libc I actually need.
-      Exact-width integers, my own <code>bool</code>, size macros, platform detection
-      for Windows / Linux / macOS — one <code>Pure.h</code> plus
-      <code>Interface / Implementation / Platform / Compiler</code> directories and a
-      <code>Build.py</code> driver. Everything else I write sits on this.
+      The libc replacement for everything I write: exact-width integers, my own
+      <code>bool</code>, size macros, platform detection for Windows / Linux / macOS —
+      one <code>Pure.h</code> plus <code>Interface / Implementation / Platform / Compiler</code>
+      and a <code>Build.py</code> driver.
     </p>
-    <div class="margin-note">I got tired of include-path soup, so includes are relative. No <code>-I</code> flags. Minor hill, willing to die on it.</div>
+    <pre class="filetree">Pure.h          ← you include this
+Interface/      ← what you call
+Implementation/ ← what runs
+Platform/       ← win32 / linux / macos
+Compiler/       ← clang + gcc shims</pre>
+    <div class="margin-note">Includes are relative, no <code>-I</code> flags. Minor hill, willing to die on it.</div>
     <div class="clone">git clone https://github.com/yashtajne/Pure.git</div>
   </div>
 
   <div class="entry">
     <div class="entry-head">
       <h3><span class="idx">002</span> <a href="https://github.com/yashtajne/PureShell">PureShell</a></h3>
-      <span class="entry-meta">C · updated oct 11 · links -lPureCore -lPureStd</span>
+      <span class="stamp small">active</span>
     </div>
+    <p class="entry-meta">C · updated oct 11 · <span class="chip c">C</span> <span class="chip shell">Win32</span> links <code>-lPureCore -lPureStd</code></p>
     <p>
-      A shell that runs on Pure and nothing else. Prompt looks like
-      <code>PS &lt;cwd&gt;&gt;</code>. Four builtins — <code>exit, clean, clear, cd</code> —
-      everything else is spawned as a process. Separate commands with <code>;</code>.
-      Parser in <code>Lang/</code>, execution in <code>Program/</code>, build with
-      <code>build.bat</code> into <code>Shell.exe</code>.
+      A shell that runs on Pure and nothing else. Prompt reads
+      <code>PS &lt;cwd&gt;&gt;</code>; four builtins — <code>exit, clean, clear, cd</code> —
+      everything else spawns as a process. Commands chain with <code>;</code>.
     </p>
+    <pre class="filetree">Shell.c / Shell.h   ← main loop
+Lang/               ← parse(), parse_segment()
+Program/            ← builtins, cd, launch
+build.bat           → Shell.exe</pre>
     <ul>
-      <li><code>clean</code> clears the visible window, <code>clear</code> clears scrollback too. Yes, they're different. No, I won't merge them.</li>
-      <li>Bare <code>cd</code> prints where you are. Old habit from somewhere, keeping it.</li>
+      <li><code>clean</code> clears the window, <code>clear</code> clears scrollback too. Different things. Staying different.</li>
+      <li>Bare <code>cd</code> prints where you are. Old habit, keeping it.</li>
     </ul>
     <div class="clone">git clone https://github.com/yashtajne/PureShell.git</div>
   </div>
@@ -113,27 +133,51 @@
   <div class="entry">
     <div class="entry-head">
       <h3><span class="idx">003</span> <a href="https://github.com/yashtajne/VIRE">VIRE</a></h3>
-      <span class="entry-meta">C · MIT · the long one</span>
+      <span class="stamp small alt">long haul</span>
     </div>
+    <p class="entry-meta">C · MIT · <span class="chip c">C</span> <span class="chip emu">emulator</span> virtual hardware, not containers</p>
     <p>
-      <strong>Virtual Isolated Runtime Environment.</strong> A virtual <em>hardware</em>
-      emulator, not a container — custom 64-bit ISA, 16 registers, three privilege
-      levels, virtual RAM / disk / console / timer / NIC. The idea is that a guest
-      Linux eventually runs on top. Currently: CPU interpreter, sparse virtual memory,
-      and an assembler work; devices are next.
+      <strong>Virtual Isolated Runtime Environment.</strong> A custom 64-bit ISA with
+      16 registers and three privilege levels, sparse virtual RAM, and an assembler —
+      the long-term goal being a Linux guest on top. CPU, memory, and assembler work;
+      devices are next.
     </p>
-    <ul>
-      <li>Fixed 32-bit little-endian instructions. <code>ecall, ebreak, mret, wfi</code> included.</li>
-      <li>Headers in <code>Include/VenV/</code> (<code>ISA.h, CPU.h, Memory.h, Device.h…</code>), impl in <code>Src/</code>.</li>
-      <li>Phase list is in the repo readme — devices, then console/disk I/O, then networking, then the Linux port. Slow on purpose.</li>
-    </ul>
+    <pre class="filetree">Include/VenV/   ← ISA.h CPU.h Memory.h Device.h Timer.h Console.h Block.h Net.h
+Src/            ← CPU.c Memory.c Assembler.c
+Test/           ← test_vire.c</pre>
     <div class="clone">git clone https://github.com/yashtajne/VIRE.git</div>
   </div>
 
-  <h2 id="projects"><span class="sec-no">02</span> Everything else</h2>
+  <h2 id="machine"><span class="sec-no">02</span> Inside the machine room</h2>
+  <p class="section-note">The part I'm actually proud of. Fixed-width everything.</p>
+
+  <div class="band">
+    <div class="band-col">
+      <h3>vire registers</h3>
+      <pre>x0        zero, always
+x1–x13    general purpose
+x14       sp — stack pointer
+x15       ra — return address
+pc        program counter
+status    interrupts + privilege
+164-bit regs · 32-bit LE instrs</pre>
+    </div>
+    <div class="band-col">
+      <h3>how anything here builds</h3>
+      <pre>clang -nostdlib -ffreestanding
+  -o test_vire Test/test_vire.c
+  Src/CPU.c Src/Memory.c
+  Src/Assembler.c
+
+no libc. the Interface/
+layer is the libc.</pre>
+    </div>
+  </div>
+
+  <h2 id="projects"><span class="sec-no">03</span> Everything else</h2>
   <p class="section-note">
     Pulled from github — {live ? 'live copy' : 'committed copy'}. Forks (a dozen Geektoberfest repos)
-    are hidden unless you ask. {#if followers !== null}One follower at last count, hi.{/if}
+    stay hidden unless asked. {#if followers !== null}One follower at last count, hi.{/if}
   </p>
 
   <div class="prompt-row">
@@ -163,29 +207,41 @@
   </ol>
   {#if !shown.length}<p>Nothing matches. Clear the filter.</p>{/if}
 
-  <h2 id="how"><span class="sec-no">03</span> How I build</h2>
-  <p class="section-note">Short version, since the repos already show it.</p>
-  <div class="two-col">
-    <ul>
-      <li><strong>Languages:</strong> C first, then Rust, some C++, Java, Python, shell, JS when needed.</li>
-      <li><strong>Systems bits:</strong> Win32, X11 (see <a href="https://github.com/yashtajne/oblivian">oblivian</a>, a minimal WM), MMIO, assemblers.</li>
-    </ul>
-    <ul>
-      <li><strong>Toolchain:</strong> clang or gcc, C99, <code>-nostdlib -ffreestanding</code>. Batch files on Windows, shell elsewhere.</li>
-      <li><strong><span class="strike">Docker</span>:</strong> VIRE emulates the machine; the guest OS does the OS part. Different layer, on purpose.</li>
-    </ul>
-  </div>
+  <h2 id="resume"><span class="sec-no">04</span> Resume</h2>
+  <p class="section-note">One page, no padding. The PDF is generated from the same text.</p>
 
-  <h2 id="contact"><span class="sec-no">04</span> Contact</h2>
+  <article class="resume-card">
+    <header>
+      <div>
+        <strong>{resume.name}</strong>
+        <span>{resume.title} · {resume.links[0]}</span>
+      </div>
+      <a class="btn-paper" href="./resume.pdf" download>resume.pdf ↓</a>
+    </header>
+    <p>{resume.summary}</p>
+    <ul class="r-skills">
+      {#each resume.skills as s}<li><strong>{s.k}:</strong> {s.v}</li>{/each}
+    </ul>
+    <ol class="r-proj">
+      {#each resume.projects as p}
+        <li><strong>{p.name}</strong> <span>— {p.meta}</span>
+          <ul>{#each p.points as pt}<li>{pt}</li>{/each}</ul>
+        </li>
+      {/each}
+    </ol>
+    <p class="r-foot">{resume.availability}</p>
+  </article>
+
+  <h2 id="contact"><span class="sec-no">05</span> Contact</h2>
   <p>
-    Best way is GitHub — open an issue on whichever repo it concerns, I read them.
-    Profile: <a href="https://github.com/yashtajne">github.com/yashtajne</a>.
-    Currently open to work; low-level C / systems stuff is what I'm good for.
+    GitHub is the fastest way — open an issue on whichever repo it concerns, I read them:
+    <a href="https://github.com/yashtajne">github.com/yashtajne</a>.
+    Open to systems / low-level work in C, C++, Rust, or Go.
   </p>
 
   <div class="colophon">
-    <p>colophon — set in Georgia + monospace. built with svelte 5 + vite, installed and built with bun.</p>
-    <p>no tracking, no cookies, no framework-in-the-browser beyond svelte. this page is a static build; the repo list re-fetches live.</p>
-    <p><a href="./">top</a> · <a href="https://github.com/yashtajne?tab=repositories">all repos</a> · .nojekyll included so /data paths serve raw on pages</p>
+    <p>colophon — Georgia + monospace on paper. svelte 5 + vite, bun-built. resume.pdf is generated by <code>scripts/make_resume.py</code>.</p>
+    <p>no tracking, no cookies. repo list re-fetches live; everything else is static.</p>
+    <p><a href="./">top</a> · <a href="./resume.pdf">resume</a> · <a href="https://github.com/yashtajne?tab=repositories">all repos</a></p>
   </div>
 </div>

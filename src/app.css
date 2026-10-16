@@ -122,3 +122,79 @@ h2 .sec-no { font-family: var(--mono); font-size: 13px; font-weight: 400; color:
 
 .skip-link { position: absolute; left: -999px; }
 .skip-link:focus { left: 10px; top: 10px; background: var(--ink); color: var(--paper); padding: 6px 10px; z-index: 5; }
+
+/* --- second pass: more ink, still no gradients --- */
+
+.headline-row { display: flex; align-items: flex-start; gap: 16px; margin-top: 26px; }
+.headline-row h1 { margin: 0; }
+.red-dot { color: var(--red); }
+.stamp {
+  font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  color: var(--red); border: 2px solid var(--red); border-radius: 4px;
+  padding: 4px 9px; transform: rotate(3deg); white-space: nowrap; margin-top: 12px;
+}
+.stamp.small { font-size: 11px; margin-top: 4px; }
+.stamp.alt { color: var(--blue); border-color: var(--blue); transform: rotate(-2deg); }
+
+/* at-a-glance strip */
+.glance {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  margin: 26px 0 0; padding: 0; border: 1px solid var(--ink); border-radius: 8px; overflow: hidden;
+}
+.glance div { padding: 10px 12px; border-left: 1px solid var(--line); margin: 0; }
+.glance div:first-child { border-left: 0; }
+.glance dt { font-family: var(--mono); font-size: 11px; color: var(--faded); text-transform: uppercase; letter-spacing: 1px; }
+.glance dd { margin: 2px 0 0; font-size: 15px; }
+.glance code { font-family: var(--mono); font-size: 12px; }
+@media (max-width: 640px) { .glance { grid-template-columns: 1fr 1fr; } .glance div:nth-child(3) { border-left: 0; } }
+
+.entry { transition: background 0.15s; }
+.entry:hover { background: #fff6; }
+.entry-meta { display: block; margin-top: 6px; }
+
+.chip {
+  font-family: var(--mono); font-size: 11px; border: 1px solid var(--ink);
+  border-radius: 99px; padding: 0 8px; margin-right: 4px; white-space: nowrap;
+}
+.chip.c { background: #1f4e7a; border-color: #1f4e7a; color: #f6f2e7; }
+.chip.shell { background: var(--paper-2); }
+.chip.emu { background: var(--red); border-color: var(--red); color: #f6f2e7; }
+
+.filetree {
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: #3d3a30;
+  border: 1px dashed var(--faded); border-radius: 6px; padding: 10px 12px;
+  margin: 12px 0 0; overflow-x: auto; background: #fbf8ef;
+}
+
+/* dark machine-room band: one contrasting section for rhythm */
+.band {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  background: #211d14; color: #e9e2cf; border-radius: 10px; overflow: hidden;
+  border: 1px solid #211d14; margin: 6px 0 8px;
+}
+.band-col { padding: 18px; }
+.band-col + .band-col { border-left: 1px solid #4a4436; }
+.band h3 { margin: 0 0 8px; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #e8d98f; }
+.band pre { margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.75; white-space: pre-wrap; }
+@media (max-width: 640px) { .band { grid-template-columns: 1fr; } .band-col + .band-col { border-left: 0; border-top: 1px solid #4a4436; } }
+
+/* resume preview card */
+.resume-card {
+  border: 1px solid var(--ink); border-radius: 10px; padding: 20px;
+  background: #fbf8ef; box-shadow: 4px 4px 0 var(--paper-2);
+}
+.resume-card header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.resume-card header strong { font-size: 22px; display: block; }
+.resume-card header span { font-family: var(--mono); font-size: 12px; color: var(--faded); }
+.btn-paper {
+  font-family: var(--mono); font-size: 13px; font-weight: 700; color: #f6f2e7 !important;
+  background: var(--red); border-radius: 6px; padding: 8px 14px; text-decoration: none !important;
+  border: 1px solid #7c271e;
+}
+.btn-paper:hover { background: var(--ink); border-color: var(--ink); color: #f6f2e7; }
+.r-skills { padding-left: 20px; font-size: 15px; }
+.r-proj { padding-left: 20px; }
+.r-proj > li { margin: 8px 0; }
+.r-proj > li > span { color: var(--faded); font-size: 14px; }
+.r-proj ul { padding-left: 20px; font-size: 15px; color: #3d3a30; }
+.r-foot { font-family: var(--mono); font-size: 13px; border-top: 1px dotted var(--line); padding-top: 10px; }
